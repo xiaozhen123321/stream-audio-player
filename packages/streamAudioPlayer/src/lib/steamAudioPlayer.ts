@@ -3,7 +3,6 @@
  */
 import {isSupportMediaSource, isSupportAudioContext} from './utils';
 import {IOptions, IAppendBufferParams, AudioType} from './type';
-import {IAbstractStreamAudioPlayer} from './abstractStreamAudioPlayer';
 import {MseStreamAudioPlayer} from './mseStreamAudioPlayer';
 import {AudioContextStreamAudioPlayer} from './audioContextStreamAudioPlayer';
 
@@ -23,7 +22,10 @@ export class StreamAudioPlayer {
     };
 
     /** 播放器实例 */
-    private player: IAbstractStreamAudioPlayer | null = null;
+    private msePlayer: MseStreamAudioPlayer | null = null;
+
+    /** 播放器实例 */
+    private audioContextPlayer: AudioContextStreamAudioPlayer | null = null;
     
     /** 事件发射器 */
     private readonly eventEmitter: EventTarget = new EventTarget();
@@ -35,6 +37,52 @@ export class StreamAudioPlayer {
      * */
     readonly audioPlayMode: 'mse' | 'audioContext' | null = null;
 
+    /**
+     * 获取音频元素实例
+     * 可自己操控所有关于HTMLAudioElement的音频播放相关操作。例如快进，倍速
+     * 注意：只有在mse模式下才会有audioElement，因为AudioContext不支持操控音频播放相关操作
+     * */
+    get audioElement(): HTMLAudioElement | null {
+        if (this.msePlayer) {
+            return this.msePlayer.audioElement;
+        }
+
+        return null;
+    }
+
+    constructor(options: IOptions) {
+        // 初始化播放器
+        this.options = options;
+
+        if (
+            StreamAudioPlayer.isSupportMediaSource
+            && (this.options.type === AudioType.MP3 || this.options.type === AudioType.AAC)
+            && !this.options.useAudioContext
+        ) {
+            // 如果支持mse，并且是mp3或wav格式，则使用MseStreamAudioPlayer
+            // 因为mse不支持pcm格式，所以这里要排除掉pcm格式
+            this.msePlayer = new MseStreamAudioPlayer();
+            this.msePlayer.init();
+            this.msePlayer.eventEmitter = this.eventEmitter;
+            this.audioPlayMode = 'mse';
+            return;
+        }
+
+        if (StreamAudioPlayer.isSupportAudioContext) {
+            // 如果支持webAudio，则使用AudioContextStreamAudioPlayer
+            // 例如ios系统不支持mse，但是支持webAudio，所以这里要使用webAudio来播放音频
+            // 以及pcm格式也需要使用webAudio来播放
+            this.audioContextPlayer = new AudioContextStreamAudioPlayer();
+            this.audioContextPlayer.sampleRate = this.options.sampleRate ?? this.audioContextPlayer.sampleRate;
+            this.audioContextPlayer.channels = this.options.channels ?? this.audioContextPlayer.channels;
+            this.audioContextPlayer.bitDepth = this.options.bitDepth ?? this.audioContextPlayer.bitDepth;
+            this.audioContextPlayer.type = this.options.type as AudioType;
+            this.audioContextPlayer.eventEmitter = this.eventEmitter;
+            this.audioPlayMode = 'audioContext';
+            return;
+        }
+    }
+
     /** 外部绑定事件 */
     on = (event: string, func: EventListenerOrEventListenerObject) => {
         this.eventEmitter.addEventListener(event, func);
@@ -45,46 +93,23 @@ export class StreamAudioPlayer {
         this.eventEmitter.removeEventListener(event, func || null);
     };
 
-    constructor(options: IOptions) {
-        // 初始化播放器
-        this.options = options;
-
-        if (
-            StreamAudioPlayer.isSupportMediaSource
-            && (this.options.type === AudioType.MP3 || this.options.type === AudioType.WAV)
-            && !this.options.useAudioContext
-        ) {
-            // 如果支持mse，并且是mp3或wav格式，则使用MseStreamAudioPlayer
-            // 因为mse不支持pcm格式，所以这里要排除掉pcm格式
-            this.player = new MseStreamAudioPlayer();
-            this.player.init();
-            this.player.eventEmitter = this.eventEmitter;
-            this.player.type = this.options.type as AudioType;
-            this.audioPlayMode = 'mse';
-            return;
-        }
-
-        if (StreamAudioPlayer.isSupportAudioContext) {
-            // 如果支持webAudio，则使用AudioContextStreamAudioPlayer
-            // 例如ios系统不支持mse，但是支持webAudio，所以这里要使用webAudio来播放音频
-            // 以及pcm格式也需要使用webAudio来播放
-            this.player = new AudioContextStreamAudioPlayer();
-            this.player.sampleRate = this.options.sampleRate ?? this.player.sampleRate;
-            this.player.channels = this.options.channels ?? this.player.channels;
-            this.player.bitDepth = this.options.bitDepth ?? this.player.bitDepth;
-            this.player.type = this.options.type as AudioType;
-            this.player.eventEmitter = this.eventEmitter;
-            this.audioPlayMode = 'audioContext';
-            return;
-        }
-    }
-
     /** 增加音频数据到播放队列 */
     appendBuffer = (param: IAppendBufferParams) => {
-        this.player?.appendBuffer({
-            buffer: param.buffer,
-            bufferId: param.bufferId || Math.random().toString(36).slice(2)
-        });
+        if (this.msePlayer) {
+            this.msePlayer.appendBuffer({
+                buffer: param.buffer,
+                bufferId: param.bufferId || Math.random().toString(36).slice(2)
+            });
+        }
+        
+        if (this.audioContextPlayer) {
+            this.audioContextPlayer.appendBuffer({
+                buffer: param.buffer,
+                bufferId: param.bufferId || Math.random().toString(36).slice(2)
+            });
+        }
+
+        return;
     }
 
     /**
@@ -92,28 +117,45 @@ export class StreamAudioPlayer {
      * 只用于第一次播放音频，暂停后在播放需要调用resume方法
      * */
     play = () => {
-        if (!this.player) {
-            return;
+        if (this.msePlayer) {
+            this.msePlayer.play();
         }
 
-        this.player.play()
+        if (this.audioContextPlayer) {
+            this.audioContextPlayer.play();
+        }
     }
 
     /** 暂停音频 */
     pause = () => {
-        if (!this.player) {
-            return;
+        if (this.msePlayer) {
+            this.msePlayer.pause();
         }
 
-        this.player.pause();
+        if (this.audioContextPlayer) {
+            this.audioContextPlayer.pause();
+        }
     }
 
     /** 恢复音频播放 */
     resume = () => {
-        if (!this.player) {
-            return;
+        if (this.msePlayer) {
+            this.msePlayer.resume();
         }
 
-        this.player.resume();
+        if (this.audioContextPlayer) {
+            this.audioContextPlayer.resume();
+        }
+    }
+
+    /** dispose 销毁所有 */
+    dispose = () => {
+        if (this.msePlayer) {
+            this.msePlayer.dispose();
+        }
+
+        if (this.audioContextPlayer) {
+            this.audioContextPlayer.dispose();
+        }
     }
 }

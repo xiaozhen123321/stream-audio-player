@@ -1,10 +1,22 @@
 /**
  * 基于 AudioContext 实现的流式音频播放器
  */
-import {AbstractStreamAudioPlayer} from './abstractStreamAudioPlayer';
 import {IAppendBufferParams, AudioType} from './type';
 
-export class AudioContextStreamAudioPlayer extends AbstractStreamAudioPlayer {
+export class AudioContextStreamAudioPlayer {
+    /** 是否正在播放 */
+    isPlaying: boolean = false;
+    /** 音频采样率 pcm需传 */
+    sampleRate: number = 8000;
+    /** 音频通道数 pcm需传 */
+    channels: number = 1;
+    /** 位深 pcm需传 */
+    bitDepth: number = 16;
+    type: AudioType = AudioType.MP3;
+
+    /** 是否可能还有新的buffer数据要推进来 */
+    isBufferFull: boolean = false;
+    eventEmitter: EventTarget = new EventTarget();
     /** 用于处理音频的 AudioContext */
     // @ts-ignore
     audioContext: AudioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -64,7 +76,7 @@ export class AudioContextStreamAudioPlayer extends AbstractStreamAudioPlayer {
     };
 
     /** 增加音频数据到播放队列 */
-    override appendBuffer = (buffer: IAppendBufferParams) => {
+    appendBuffer = (buffer: IAppendBufferParams) => {
         if (this.type === AudioType.PCM) {
             if (this.audioBufferQueue.length === 0) {
                 // 如果audioBufferQueue为空，说明还没有播放过音频数据,添加完成即可以播放
@@ -101,17 +113,18 @@ export class AudioContextStreamAudioPlayer extends AbstractStreamAudioPlayer {
     }
 
     /** 暂停音频播放 */
-    override pause = (): void => {
+    pause = (): void => {
         this.audioContext.suspend()
             .then(() => {
                 this.isPlaying = false;
+                this.eventEmitter.dispatchEvent(new CustomEvent('audioPause'));
             })
             .catch(() => {
                 throw new Error('Failed to suspend audio context');
             });
     };
 
-    override resume = (): void => {
+    resume = (): void => {
         this.audioContext.resume()
             .then(() => {
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioResumePlay'));
@@ -123,7 +136,7 @@ export class AudioContextStreamAudioPlayer extends AbstractStreamAudioPlayer {
     }
 
     /** 停止播放器并清除资源 */
-    override dispose = (): void => {
+    dispose = (): void => {
         this.isPlaying = false;
         this.audioSourceNode = null;
         this.audioBufferQueue = [];
@@ -165,11 +178,5 @@ export class AudioContextStreamAudioPlayer extends AbstractStreamAudioPlayer {
         this.audioSourceNode.start();
     };
 
-    constructor() {
-        super();
-    }
-
-    /** 初始化播放器 */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    override init() {}
+    constructor() {}
 }

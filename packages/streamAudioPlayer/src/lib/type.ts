@@ -5,12 +5,13 @@
 export enum AudioType {
     PCM = 'pcm',
     MP3 = 'mp3',
-    WAV = 'wav'
+    WAV = 'wav',
+    AAC = 'aac'
 }
 
  export interface IOptions {
     /** 音频类型 pcm/mp3/wav */
-    type: 'pcm' | 'mp3' | 'wav';
+    type: 'pcm' | 'mp3' | 'wav' | 'aac';
     /** 是否直接采用audioContext方式进行播放流式音频 */
     useAudioContext?: boolean;
     /** 音频采样率 pcm需传 */

@@ -1,10 +1,11 @@
 /**
  * 基于MediaSource API实现的流式音频播放器
  */
-import {AbstractStreamAudioPlayer} from './abstractStreamAudioPlayer';
 import {IAppendBufferParams} from './type';
 
-export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
+export class MseStreamAudioPlayer {
+    isPlaying: boolean = false;
+    eventEmitter: EventTarget = new EventTarget();
     /** 音频元素实例 */
     audioElement: HTMLAudioElement = new Audio();
 
@@ -20,7 +21,7 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
     /** 待添加的sourcebuffer对象队列 */
     arrayBufferQueue: IAppendBufferParams[] = [];
 
-    override init = () => {
+    init = () => {
         this.mediaSource = new MediaSource();
 
         // 设置音频元素的源
@@ -47,10 +48,11 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
         if (this.arrayBufferQueue.length > 0 && this.sourceBuffer) {
             const buffer: IAppendBufferParams = this.arrayBufferQueue.shift()!;
             this.sourceBuffer.appendBuffer(buffer.buffer);
+            return;
         }
 
         // sourcebuffer没有更新中 并且readyState为open 后续没有buffer数据进来了，则结束流
-        if (this.sourceBuffer && !this.sourceBuffer.updating && this.mediaSource.readyState === 'open' && !this.isBufferFull) {
+        if (this.sourceBuffer && !this.sourceBuffer.updating && this.mediaSource.readyState === 'open') {
             this.mediaSource.endOfStream();
         }
     };
@@ -93,6 +95,7 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
     /** 播放音频的监听 */
     play = () => {
         this.eventEmitter.dispatchEvent(new CustomEvent('audioPlayStart'));
+        this.audioElement.currentTime = 0;
 
         this.audioElement.play()
             .then(() => {
@@ -101,6 +104,7 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioPlayStart'));
             })
             .catch((err) => {
+                console.error('音频播放失败', err);
                 throw new Error('音频播放失败');
             });
         
@@ -110,6 +114,7 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
     /** 暂停播放 */
     pause = () => {
         this.audioElement.pause();
+        this.eventEmitter.dispatchEvent(new CustomEvent('audioPause'));
         this.isPlaying = false;
     };
 
@@ -126,7 +131,7 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
     }
 
     /** 增加音频数据到sourcebuffer */
-    override appendBuffer = (buffer: IAppendBufferParams): void => {
+    appendBuffer = (buffer: IAppendBufferParams): void => {
         if (!this.sourceBuffer) {
             return;
         }
@@ -141,16 +146,14 @@ export class MseStreamAudioPlayer extends AbstractStreamAudioPlayer {
     };
 
     /** dispose */
-    override dispose = () => {
+    dispose = () => {
         this.isPlaying = false;
         this.unbindEvent();
         this.audioElement.src = '';
         this.sourceBuffer = null;
     };
 
-    constructor() {
-        super();
-    }
+    constructor() {}
 
     /** 绑定相关事件 */
     bindEvent = () => {
