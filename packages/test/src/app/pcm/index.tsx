@@ -116,9 +116,7 @@ export const PCMAudioPlayer: React.FC = () => {
                     onClick={
                         () => {
                             if (audioBuffer) {
-                                audioPlayer.appendBuffer({
-                                    buffer: audioBuffer
-                                });
+                                audioPlayer.appendBuffer(audioBuffer);
                                 setFirstAppendButtonDisabled(true);
                                 setSecondAppendButtonDisabled(false);
                             }
@@ -132,9 +130,7 @@ export const PCMAudioPlayer: React.FC = () => {
                     onClick={
                         () => {
                             if (audioBuffer) {
-                                audioPlayer.appendBuffer({
-                                    buffer: audioBuffer1
-                                });
+                                audioPlayer.appendBuffer(audioBuffer1);
                                 setSecondAppendButtonDisabled(true);
                                 setPlayButDisabled(false);
                             }

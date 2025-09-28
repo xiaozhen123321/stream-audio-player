@@ -103,9 +103,7 @@ export const WavAudioPlayer: React.FC = () => {
                     onClick={
                         () => {
                             if (audioBuffer) {
-                                audioPlayer.appendBuffer({
-                                    buffer: audioBuffer
-                                });
+                                audioPlayer.appendBuffer(audioBuffer);
                                 setFirstAppendButtonDisabled(true);
                                 setSecondAppendButtonDisabled(false);
                             }
@@ -119,9 +117,7 @@ export const WavAudioPlayer: React.FC = () => {
                     onClick={
                         () => {
                             if (audioBuffer) {
-                                audioPlayer.appendBuffer({
-                                    buffer: audioBuffer1
-                                });
+                                audioPlayer.appendBuffer(audioBuffer1);
                                 setSecondAppendButtonDisabled(true);
                                 setPlayButDisabled(false);
                             }
