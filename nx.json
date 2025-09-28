@@ -19,6 +19,58 @@
           "watchDepsName": "watch-deps"
         }
       }
+    },
+    {
+      "plugin": "@nx/react/router-plugin",
+      "options": {
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "startTargetName": "start",
+        "watchDepsTargetName": "watch-deps",
+        "buildDepsTargetName": "build-deps",
+        "typecheckTargetName": "typecheck"
+      }
+    },
+    {
+      "plugin": "@nx/rsbuild",
+      "options": {
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "previewTargetName": "preview",
+        "inspectTargetName": "inspect",
+        "typecheckTargetName": "typecheck",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    },
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
     }
-  ]
+  ],
+  "generators": {
+    "@nx/react": {
+      "library": {
+        "style": "scss",
+        "linter": "none",
+        "unitTestRunner": "vitest"
+      },
+      "application": {
+        "babel": true,
+        "style": "scss",
+        "linter": "none",
+        "bundler": "vite"
+      },
+      "component": {
+        "style": "scss"
+      }
+    },
+    "@nx/web:application": {
+      "style": "scss",
+      "linter": "none",
+      "e2eTestRunner": "none"
+    }
+  }
 }

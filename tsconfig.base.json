@@ -5,9 +5,10 @@
     "emitDeclarationOnly": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "target": "ES2015",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -15,7 +16,9 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2022",
-    "customConditions": ["@stream-audio-player/source"]
+    "customConditions": ["@stream-audio-player/source"],
+    "paths": {
+      "stream-audio-player": ["packages/streamAudioPlayer/src/index.ts"]
+    }
   }
 }
