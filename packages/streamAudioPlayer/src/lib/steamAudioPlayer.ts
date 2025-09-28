@@ -56,7 +56,7 @@ export class StreamAudioPlayer {
 
         if (
             StreamAudioPlayer.isSupportMediaSource
-            && (this.options.type === AudioType.MP3 || this.options.type === AudioType.AAC)
+            && (this.options.type === AudioType.MP3)
             && !this.options.useAudioContext
         ) {
             // 如果支持mse，并且是mp3或wav格式，则使用MseStreamAudioPlayer
@@ -80,6 +80,10 @@ export class StreamAudioPlayer {
             this.audioContextPlayer.eventEmitter = this.eventEmitter;
             this.audioPlayMode = 'audioContext';
             return;
+        }
+
+        if (!StreamAudioPlayer.isSupportMediaSource && !StreamAudioPlayer.isSupportAudioContext) {
+            throw new Error('不支持流式音频播放');
         }
     }
 

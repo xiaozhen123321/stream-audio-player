@@ -99,6 +99,7 @@ export const Mp3AudioPlayer: React.FC = () => {
 
     return (
         <div>
+            <h1>Mp3音频流式播放</h1>
             <div>请依次添加第一段音频和第二段音频，并点击播放</div>
             <div>当前使用的播放方案：{audioPlayer.audioPlayMode ? (audioPlayer.audioPlayMode === 'mse' ? 'mediaSource' : 'audioContext') : ''}</div>
             <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: 20}}>
