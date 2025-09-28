@@ -1,6 +1,6 @@
 {
   "name": "stream-audio-player",
-  "version": "0.0.1-beta.3",
+  "version": "1.0.0",
   "type": "module",
   "files": [
     "dist"
