@@ -98,18 +98,18 @@ export class StreamAudioPlayer {
     };
 
     /** 增加音频数据到播放队列 */
-    appendBuffer = (param: IAppendBufferParams) => {
+    appendBuffer = (buffer: ArrayBuffer) => {
         if (this.msePlayer) {
             this.msePlayer.appendBuffer({
-                buffer: param.buffer,
-                bufferId: param.bufferId || Math.random().toString(36).slice(2)
+                buffer: buffer,
+                bufferId: Math.random().toString(36).slice(2)
             });
         }
         
         if (this.audioContextPlayer) {
             this.audioContextPlayer.appendBuffer({
-                buffer: param.buffer,
-                bufferId: param.bufferId || Math.random().toString(36).slice(2)
+                buffer: buffer,
+                bufferId: Math.random().toString(36).slice(2)
             });
         }
 
