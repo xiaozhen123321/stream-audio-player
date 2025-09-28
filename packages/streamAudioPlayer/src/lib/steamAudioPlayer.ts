@@ -2,7 +2,7 @@
  * @file 流式音频播放核心类
  */
 import {isSupportMediaSource, isSupportAudioContext} from './utils';
-import {IOptions, IAppendBufferParams, AudioType} from './type';
+import {IOptions, AudioType} from './type';
 import {MseStreamAudioPlayer} from './mseStreamAudioPlayer';
 import {AudioContextStreamAudioPlayer} from './audioContextStreamAudioPlayer';
 
