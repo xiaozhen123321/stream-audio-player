@@ -1,24 +1,28 @@
 {
   "name": "stream-audio-player",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.0.1-beta.3",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "description": "兼容多种音频格式的流式音频播放库。支持PCM、MP3、WAV等格式的音频数据流播放。",
+  "keywords": [
+    "stream-audio",
+    "audio",
+    "pcm",
+    "mp3",
+    "wav"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "@stream-audio-player/source": "./src/index.ts",
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    }
-  },
   "nx": {
     "name": "stream-audio-player"
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.lib.json"
   }
 }
