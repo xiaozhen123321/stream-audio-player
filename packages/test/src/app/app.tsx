@@ -2,6 +2,7 @@
 // import styles from './app.module.scss';
 import {Mp3AudioPlayer} from './mp3'
 import {WavAudioPlayer} from './wav'
+import {PCMAudioPlayer} from './pcm'
 import '@ant-design/v5-patch-for-react-19';
 
 import {Tabs} from 'antd';
@@ -18,9 +19,9 @@ const items = [
     children: <WavAudioPlayer />,
   },
   {
-    key: '3',
-    label: 'Tab 3',
-    children: <Mp3AudioPlayer />
+    key: 'pcm',
+    label: 'PCM',
+    children: <PCMAudioPlayer />
   },
 ];
 
