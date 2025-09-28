@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {StreamAudioPlayer} from 'stream-audio-player';
 
-export const Mp3AudioPlayer: React.FC = () => {
-    const audioContextRef = useRef<AudioContext | null>(null);
+export const WavAudioPlayer: React.FC = () => {
     const [audioBuffer, setAudioBuffer] = useState<ArrayBuffer | null>(null);
     const [audioBuffer1, setAudioBuffer1] = useState<ArrayBuffer | null>(null);
     const [isAudioReady, setIsAudioReady] = useState(false);
@@ -16,21 +15,18 @@ export const Mp3AudioPlayer: React.FC = () => {
 
     const audioPlayer = useMemo(() => {
         return new StreamAudioPlayer({
-            type: 'mp3'
+            type: 'wav'
         });
     }, []);
 
-    // 加载并解码 mp3 文件
+    // 加载并解码 wav文件
     useEffect(() => {
         const loadAudio = async () => {
-            if (!audioContextRef.current) {
-                audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-            }
-            const response = await fetch('https://bucket123321.bj.bcebos.com/1759030174184.mp3');
-            const response1 = await fetch('https://bucket123321.bj.bcebos.com/1759030216055.mp3');
+            const response = await fetch('https://bucket123321.bj.bcebos.com/1759030174184.wav');
+            const response1 = await fetch('https://bucket123321.bj.bcebos.com/1759030216055.wav');
             const arrayBuffer = await response.arrayBuffer();
             const arrayBuffer1 = await response1.arrayBuffer();
-            console.log('arrayBuffer', arrayBuffer);
+            console.log('arrayBuffer', arrayBuffer, arrayBuffer1);
             setAudioBuffer(arrayBuffer);
             setAudioBuffer1(arrayBuffer1);
         };
