@@ -28,6 +28,9 @@ const items = [
 export function App() {
   return (
     <div>
+        <h1>流式音频播放在线demo</h1>
+        <a href='https://www.npmjs.com/package/stream-audio-player' target="_blank">npm地址</a>
+        <a href='https://github.com/xiaozhen123321/stream-audio-player' target="_blank">github地址</a>
         <Tabs defaultActiveKey="mp3" items={items} />
     </div>
   );

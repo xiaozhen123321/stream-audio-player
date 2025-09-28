@@ -7,6 +7,9 @@
     - 自动选择最佳播放方式（MediaSource 或 AudioContext）
     - 提供音频播放控制功能，如暂停和恢复等
 
+## Demo
+demo地址：[https://stream-audio-player.vercel.app/](demo)
+
 ## 安装
 
 ```bash
