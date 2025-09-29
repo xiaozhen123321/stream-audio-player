@@ -3,7 +3,6 @@
 import {Mp3AudioPlayer} from './mp3'
 import {WavAudioPlayer} from './wav'
 import {PCMAudioPlayer} from './pcm'
-import '@ant-design/v5-patch-for-react-19';
 
 import {Tabs} from 'antd';
 
