@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {StreamAudioPlayer} from 'stream-audio-player';
+import {Spin} from 'antd';
+
 import audio1 from './1759030174184.mp3';
 import audio2 from './1759030216055.mp3';
 
@@ -102,7 +104,7 @@ export const Mp3AudioPlayer: React.FC = () => {
     }, []);
 
 
-    if (!audioBuffer || !audioBuffer1) return null;
+    if (!audioBuffer || !audioBuffer1) return <Spin />;
 
     return (
         <div>

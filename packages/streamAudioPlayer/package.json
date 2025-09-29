@@ -17,7 +17,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "xiaozhen123321/stream-audio-player",
-  "homepage": "https://stream-audio-player.vercel.app",
+  "homepage": "https://steam-audio-player.netlify.app/",
   "nx": {
     "name": "stream-audio-player"
   },

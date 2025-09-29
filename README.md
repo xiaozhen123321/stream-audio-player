@@ -8,7 +8,7 @@
     - 提供音频播放控制功能，如暂停和恢复等
 
 ## Demo
-demo地址：[https://stream-audio-player.vercel.app/](demo)
+demo地址：[https://steam-audio-player.netlify.app//](demo)
 
 ## 安装
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {StreamAudioPlayer} from 'stream-audio-player';
+import {Spin} from 'antd';
 import audio1 from './202509281556_c71f6d.pcm';
 import audio2 from './202509281556_3a4fe6.pcm';
 
@@ -100,7 +101,7 @@ export const PCMAudioPlayer: React.FC = () => {
     }, []);
 
 
-    if (!audioBuffer || !audioBuffer1) return null;
+    if (!audioBuffer || !audioBuffer1) return <Spin />;
 
     return (
         <div>
