@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {StreamAudioPlayer} from 'stream-audio-player';
+import audio1 from './1759030174184.wav';
+import audio2 from './1759030216055.wav';
 
 export const WavAudioPlayer: React.FC = () => {
     const [audioBuffer, setAudioBuffer] = useState<ArrayBuffer | null>(null);
@@ -22,8 +24,8 @@ export const WavAudioPlayer: React.FC = () => {
     // 加载并解码 wav文件
     useEffect(() => {
         const loadAudio = async () => {
-            const response = await fetch('https://bucket123321.bj.bcebos.com/1759030174184.wav');
-            const response1 = await fetch('https://bucket123321.bj.bcebos.com/1759030216055.wav');
+            const response = await fetch(audio1);
+            const response1 = await fetch(audio2);
             const arrayBuffer = await response.arrayBuffer();
             const arrayBuffer1 = await response1.arrayBuffer();
             console.log('arrayBuffer', arrayBuffer, arrayBuffer1);
@@ -95,6 +97,7 @@ export const WavAudioPlayer: React.FC = () => {
 
     return (
         <div>
+            <h1>WAV音频流式播放</h1>
             <div>请依次添加第一段音频和第二段音频，并点击播放</div>
             <div>当前使用的播放方案：{audioPlayer.audioPlayMode ? (audioPlayer.audioPlayMode === 'mse' ? 'mediaSource' : 'audioContext') : ''}</div>
             <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: 20}}>

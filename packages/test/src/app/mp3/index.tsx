@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {StreamAudioPlayer} from 'stream-audio-player';
+import audio1 from './1759030174184.mp3';
+import audio2 from './1759030216055.mp3';
 
 export const Mp3AudioPlayer: React.FC = () => {
     const audioContextRef = useRef<AudioContext | null>(null);
@@ -26,13 +28,18 @@ export const Mp3AudioPlayer: React.FC = () => {
             if (!audioContextRef.current) {
                 audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
             }
-            const response = await fetch('https://bucket123321.bj.bcebos.com/1759030174184.mp3');
-            const response1 = await fetch('https://bucket123321.bj.bcebos.com/1759030216055.mp3');
-            const arrayBuffer = await response.arrayBuffer();
-            const arrayBuffer1 = await response1.arrayBuffer();
-            console.log('arrayBuffer', arrayBuffer);
-            setAudioBuffer(arrayBuffer);
-            setAudioBuffer1(arrayBuffer1);
+            try {
+                const response = await fetch(audio1);
+                const response1 = await fetch(audio2);
+                const arrayBuffer = await response.arrayBuffer();
+                const arrayBuffer1 = await response1.arrayBuffer();
+                console.log('arrayBuffer', arrayBuffer);
+                setAudioBuffer(arrayBuffer);
+                setAudioBuffer1(arrayBuffer1);
+            } catch (error) {
+                console.error('Error loading audio:', error);
+            }
+
         };
 
         loadAudio();

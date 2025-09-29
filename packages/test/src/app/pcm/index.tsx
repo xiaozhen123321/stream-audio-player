@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {StreamAudioPlayer} from 'stream-audio-player';
+import audio1 from './202509281556_c71f6d.pcm';
+import audio2 from './202509281556_3a4fe6.pcm';
 
 const sampleRate = 16000;
 const channels = 1;
@@ -29,8 +31,8 @@ export const PCMAudioPlayer: React.FC = () => {
     // 加载并解码 wav文件
     useEffect(() => {
         const loadAudio = async () => {
-            const response1 = await fetch('https://bucket123321.bj.bcebos.com/pcm/202509281556_c71f6d.pcm');
-            const response = await fetch('https://bucket123321.bj.bcebos.com/pcm/202509281556_3a4fe6.pcm');
+            const response1 = await fetch(audio1);
+            const response = await fetch(audio2);
             const arrayBuffer = await response.arrayBuffer();
             const arrayBuffer1 = await response1.arrayBuffer();
             console.log('arrayBuffer', arrayBuffer, arrayBuffer1);
