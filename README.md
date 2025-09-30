@@ -21,6 +21,18 @@ yarn add streaming-audio-player
 
 ## Usages
 
+### umd方式
+
+```js
+<script src="https://cdn.jsdelivr.net/npm/stream-audio-player@1.0.5/dist/umd/index.min.js"></script>
+
+<script>
+    // 创建播放器
+    const audioPlayer = new StreamAudioPlayer({ type: 'mp3' });
+</script>
+```
+
+### esm方式
 ```js
 const streamAudioPlayer = new StreamAudioPlayer({
   type: 'mp3'
