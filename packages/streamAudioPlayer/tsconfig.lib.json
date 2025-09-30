@@ -1,14 +1,17 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": ".", // 项目根目录
     "rootDir": "src",
-    "outDir": "dist",
-    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
-    "emitDeclarationOnly": false,
+    "outDir": "dist/types",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": false,
+    "composite": false,
+    "target": "ES2015",
+    "module": "ESNext",
     "forceConsistentCasingInFileNames": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
-  "references": []
+  "include": ["src/**/*.ts"]
 }
