@@ -1,6 +1,6 @@
 {
   "name": "stream-audio-player",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "type": "module",
   "files": [
     "dist"
@@ -13,9 +13,10 @@
     "mp3",
     "wav"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.cjs.js",
+  "module": "./dist/esm/index.esm.js",
+  "browser": "./dist/umd/index.min.js",
+  "types": "./dist/types/index.d.ts",
   "repository": "xiaozhen123321/stream-audio-player",
   "homepage": "https://steam-audio-player.netlify.app/",
   "nx": {
