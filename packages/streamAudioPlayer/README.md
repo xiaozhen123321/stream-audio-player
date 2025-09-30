@@ -13,9 +13,9 @@ demo地址：[https://steam-audio-player.netlify.app/](demo)
 ## 安装
 
 ```bash
-npm install streaming-audio-player
+npm install stream-audio-player
 # 或者使用 yarn
-yarn add streaming-audio-player
+yarn add stream-audio-player
 
 ```
 
