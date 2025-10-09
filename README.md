@@ -8,7 +8,7 @@
     - 提供音频播放控制功能，如暂停和恢复等
 
 ## Demo
-demo地址：[https://steam-audio-player.netlify.app/](demo)
+demo地址：[https://steam-audio-player.netlify.app/](https://steam-audio-player.netlify.app/)
 
 ## 安装
 
