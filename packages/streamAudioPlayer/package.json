@@ -26,6 +26,16 @@
     "tslib": "^2.3.0"
   },
   "scripts": {
-    "build": "rm -rf dist && rollup -c && tsc --project tsconfig.lib.json"
+    "build": "rm -rf dist && rollup -c && tsc --project tsconfig.lib.json",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^4.0.7",
+    "happy-dom": "^20.0.10",
+    "jsdom": "^27.1.0",
+    "vitest": "^4.0.7"
   }
 }
