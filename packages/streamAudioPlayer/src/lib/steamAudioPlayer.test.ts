@@ -94,7 +94,7 @@ describe('StreamAudioPlayer', () => {
                         getChannelData: vi.fn((_channel: number) => new Float32Array(length)),
                         duration: length / sampleRate
                     };
-                    return buffer as AudioBuffer;
+                    return buffer as unknown as AudioBuffer;
                 });
                 createBufferSource = vi.fn().mockReturnValue({
                     buffer: null,
@@ -184,7 +184,7 @@ describe('StreamAudioPlayer', () => {
                         getChannelData: vi.fn((_channel: number) => new Float32Array(length)),
                         duration: length / sampleRate
                     };
-                    return buffer as AudioBuffer;
+                    return buffer as unknown as AudioBuffer;
                 });
                 createBufferSource = vi.fn().mockReturnValue({
                     buffer: null,
@@ -324,7 +324,7 @@ describe('StreamAudioPlayer', () => {
                         getChannelData: vi.fn((_channel: number) => new Float32Array(length)),
                         duration: length / sampleRate
                     };
-                    return buffer as AudioBuffer;
+                    return buffer as unknown as AudioBuffer;
                 });
                 createBufferSource = vi.fn().mockReturnValue({
                     buffer: null,
