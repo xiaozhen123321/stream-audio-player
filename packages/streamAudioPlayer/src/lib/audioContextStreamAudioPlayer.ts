@@ -18,28 +18,26 @@ export class AudioContextStreamAudioPlayer {
     isBufferFull: boolean = false;
     eventEmitter: EventTarget = new EventTarget();
     /** 用于处理音频的 AudioContext */
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     audioContext: AudioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     /** 用于处理音频流的源节点 */
     audioSourceNode: AudioBufferSourceNode | null = null;
 
     /** 用于处理音频缓冲区队列 */
-    audioBufferQueue: Array<{audioBuffer: AudioBuffer, id?: string}> = [];
+    audioBufferQueue: Array<{audioBuffer: AudioBuffer; id?: string}> = [];
 
-    private readonly convertBufferToAudioBuffer = (buffer: ArrayBuffer): AudioBuffer  => {
+    private readonly convertBufferToAudioBuffer = (buffer: ArrayBuffer): AudioBuffer => {
         let pcmData = null;
 
         if (this.bitDepth === 8) {
             pcmData = new Int8Array(buffer);
-        }
-        else if (this.bitDepth === 16) {
+        } else if (this.bitDepth === 16) {
             pcmData = new Int16Array(buffer);
-        }
-        else if (this.bitDepth === 32) {
+        } else if (this.bitDepth === 32) {
             pcmData = new Int32Array(buffer);
-        }
-        else {
+        } else {
             throw new Error('Unsupported bit depth');
         }
 
@@ -87,8 +85,7 @@ export class AudioContextStreamAudioPlayer {
                 audioBuffer,
                 id: buffer.bufferId
             });
-        }
-        else {
+        } else {
             this.audioContext.decodeAudioData(buffer.buffer).then(decodedBuffer => {
                 if (this.audioBufferQueue.length === 0) {
                     // 如果audioBufferQueue为空，说明还没有播放过音频数据,添加完成即可以播放
@@ -98,10 +95,8 @@ export class AudioContextStreamAudioPlayer {
                     audioBuffer: decodedBuffer,
                     id: buffer.bufferId
                 });
-                
-            })
-        }        
-
+            });
+        }
     };
 
     play(): void {
@@ -114,7 +109,8 @@ export class AudioContextStreamAudioPlayer {
 
     /** 暂停音频播放 */
     pause = (): void => {
-        this.audioContext.suspend()
+        this.audioContext
+            .suspend()
             .then(() => {
                 this.isPlaying = false;
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioPause'));
@@ -125,7 +121,8 @@ export class AudioContextStreamAudioPlayer {
     };
 
     resume = (): void => {
-        this.audioContext.resume()
+        this.audioContext
+            .resume()
             .then(() => {
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioResumePlay'));
                 this.isPlaying = true;
@@ -133,7 +130,7 @@ export class AudioContextStreamAudioPlayer {
             .catch(() => {
                 throw new Error('Failed to resume audio context');
             });
-    }
+    };
 
     /** 停止播放器并清除资源 */
     dispose = (): void => {

@@ -8,7 +8,7 @@ export enum AudioType {
     WAV = 'wav'
 }
 
- export interface IOptions {
+export interface IOptions {
     /** 音频类型 pcm/mp3/wav */
     type: 'pcm' | 'mp3' | 'wav';
     /** 是否直接采用audioContext方式进行播放流式音频 */

@@ -52,7 +52,11 @@ export class MseStreamAudioPlayer {
         }
 
         // sourcebuffer没有更新中 并且readyState为open 后续没有buffer数据进来了，则结束流
-        if (this.sourceBuffer && !this.sourceBuffer.updating && this.mediaSource.readyState === 'open') {
+        if (
+            this.sourceBuffer &&
+            !this.sourceBuffer.updating &&
+            this.mediaSource.readyState === 'open'
+        ) {
             this.mediaSource.endOfStream();
         }
     };
@@ -97,19 +101,18 @@ export class MseStreamAudioPlayer {
         this.eventEmitter.dispatchEvent(new CustomEvent('audioPlayStart'));
         this.audioElement.currentTime = 0;
 
-        this.audioElement.play()
+        this.audioElement
+            .play()
             .then(() => {
                 this.isPlaying = true;
                 // 音频开始播放，发布消息
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioPlayStart'));
             })
-            .catch((err) => {
+            .catch(err => {
                 console.error('音频播放失败', err);
                 throw new Error('音频播放失败');
             });
-        
     };
-
 
     /** 暂停播放 */
     pause = () => {
@@ -119,13 +122,14 @@ export class MseStreamAudioPlayer {
     };
 
     resume(): void {
-        this.audioElement.play()
+        this.audioElement
+            .play()
             .then(() => {
                 this.isPlaying = true;
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioResumePlay'));
                 // 音频开始播放，发布消息
             })
-            .catch((err) => {
+            .catch(err => {
                 throw new Error('音频播放失败');
             });
     }
@@ -135,11 +139,14 @@ export class MseStreamAudioPlayer {
         if (!this.sourceBuffer) {
             return;
         }
-        if (this.sourceBufferUpdating || this.arrayBufferQueue.length > 0 || this.sourceBuffer.updating) {
+        if (
+            this.sourceBufferUpdating ||
+            this.arrayBufferQueue.length > 0 ||
+            this.sourceBuffer.updating
+        ) {
             // 如果正在更新sourcebuffer或者队列中有数据，则将数据放入队列中
             this.arrayBufferQueue.push(buffer);
-        }
-        else {
+        } else {
             this.sourceBufferUpdating = true;
             this.sourceBuffer.appendBuffer(buffer.buffer);
         }

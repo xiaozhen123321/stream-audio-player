@@ -1,17 +1,17 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": ".", // 项目根目录
-    "rootDir": "src",
-    "outDir": "dist/types",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "declarationMap": false,
-    "composite": false,
-    "target": "ES2015",
-    "module": "ESNext",
-    "forceConsistentCasingInFileNames": true,
-    "types": ["node"]
-  },
-  "include": ["src/**/*.ts"]
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".", // 项目根目录
+        "rootDir": "src",
+        "outDir": "dist/types",
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "declarationMap": false,
+        "composite": false,
+        "target": "ES2015",
+        "module": "ESNext",
+        "forceConsistentCasingInFileNames": true,
+        "types": ["node"]
+    },
+    "include": ["src/**/*.ts"]
 }

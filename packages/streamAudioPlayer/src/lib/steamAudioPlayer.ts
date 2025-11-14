@@ -18,7 +18,7 @@ export class StreamAudioPlayer {
         type: AudioType.MP3,
         sampleRate: 8000,
         channels: 1,
-        bitDepth: 16,
+        bitDepth: 16
     };
 
     /** 播放器实例 */
@@ -26,7 +26,7 @@ export class StreamAudioPlayer {
 
     /** 播放器实例 */
     private audioContextPlayer: AudioContextStreamAudioPlayer | null = null;
-    
+
     /** 事件发射器 */
     private readonly eventEmitter: EventTarget = new EventTarget();
 
@@ -55,9 +55,9 @@ export class StreamAudioPlayer {
         this.options = options;
 
         if (
-            StreamAudioPlayer.isSupportMediaSource
-            && (this.options.type === AudioType.MP3)
-            && !this.options.useAudioContext
+            StreamAudioPlayer.isSupportMediaSource &&
+            this.options.type === AudioType.MP3 &&
+            !this.options.useAudioContext
         ) {
             // 如果支持mse，并且是mp3或wav格式，则使用MseStreamAudioPlayer
             // 因为mse不支持pcm格式，所以这里要排除掉pcm格式
@@ -73,9 +73,12 @@ export class StreamAudioPlayer {
             // 例如ios系统不支持mse，但是支持webAudio，所以这里要使用webAudio来播放音频
             // 以及pcm格式也需要使用webAudio来播放
             this.audioContextPlayer = new AudioContextStreamAudioPlayer();
-            this.audioContextPlayer.sampleRate = this.options.sampleRate ?? this.audioContextPlayer.sampleRate;
-            this.audioContextPlayer.channels = this.options.channels ?? this.audioContextPlayer.channels;
-            this.audioContextPlayer.bitDepth = this.options.bitDepth ?? this.audioContextPlayer.bitDepth;
+            this.audioContextPlayer.sampleRate =
+                this.options.sampleRate ?? this.audioContextPlayer.sampleRate;
+            this.audioContextPlayer.channels =
+                this.options.channels ?? this.audioContextPlayer.channels;
+            this.audioContextPlayer.bitDepth =
+                this.options.bitDepth ?? this.audioContextPlayer.bitDepth;
             this.audioContextPlayer.type = this.options.type as AudioType;
             this.audioContextPlayer.eventEmitter = this.eventEmitter;
             this.audioPlayMode = 'audioContext';
@@ -105,7 +108,7 @@ export class StreamAudioPlayer {
                 bufferId: Math.random().toString(36).slice(2)
             });
         }
-        
+
         if (this.audioContextPlayer) {
             this.audioContextPlayer.appendBuffer({
                 buffer: buffer,
@@ -114,7 +117,7 @@ export class StreamAudioPlayer {
         }
 
         return;
-    }
+    };
 
     /**
      * 第一次开始播放音频
@@ -128,7 +131,7 @@ export class StreamAudioPlayer {
         if (this.audioContextPlayer) {
             this.audioContextPlayer.play();
         }
-    }
+    };
 
     /** 暂停音频 */
     pause = () => {
@@ -139,7 +142,7 @@ export class StreamAudioPlayer {
         if (this.audioContextPlayer) {
             this.audioContextPlayer.pause();
         }
-    }
+    };
 
     /** 恢复音频播放 */
     resume = () => {
@@ -150,7 +153,7 @@ export class StreamAudioPlayer {
         if (this.audioContextPlayer) {
             this.audioContextPlayer.resume();
         }
-    }
+    };
 
     /** dispose 销毁所有 */
     dispose = () => {
@@ -161,5 +164,5 @@ export class StreamAudioPlayer {
         if (this.audioContextPlayer) {
             this.audioContextPlayer.dispose();
         }
-    }
+    };
 }

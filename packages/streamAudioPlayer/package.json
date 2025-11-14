@@ -1,41 +1,41 @@
 {
-  "name": "stream-audio-player",
-  "version": "1.0.6",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "description": "兼容多种音频格式的流式音频播放库。支持PCM、MP3、WAV等格式的音频数据流播放。",
-  "keywords": [
-    "stream-audio",
-    "audio",
-    "pcm",
-    "mp3",
-    "wav"
-  ],
-  "main": "./dist/cjs/index.cjs.js",
-  "module": "./dist/esm/index.esm.js",
-  "browser": "./dist/umd/index.min.js",
-  "types": "./dist/types/index.d.ts",
-  "repository": "xiaozhen123321/stream-audio-player",
-  "homepage": "https://steam-audio-player.netlify.app/",
-  "nx": {
-    "name": "stream-audio-player"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "scripts": {
-    "build": "rm -rf dist && rollup -c && tsc --project tsconfig.lib.json",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
-  },
-  "devDependencies": {
-    "@vitest/ui": "^4.0.7",
-    "happy-dom": "^20.0.10",
-    "jsdom": "^27.1.0",
-    "vitest": "^4.0.7"
-  }
+    "name": "stream-audio-player",
+    "version": "1.0.6",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "description": "兼容多种音频格式的流式音频播放库。支持PCM、MP3、WAV等格式的音频数据流播放。",
+    "keywords": [
+        "stream-audio",
+        "audio",
+        "pcm",
+        "mp3",
+        "wav"
+    ],
+    "main": "./dist/cjs/index.cjs.js",
+    "module": "./dist/esm/index.esm.js",
+    "browser": "./dist/umd/index.min.js",
+    "types": "./dist/types/index.d.ts",
+    "repository": "xiaozhen123321/stream-audio-player",
+    "homepage": "https://steam-audio-player.netlify.app/",
+    "nx": {
+        "name": "stream-audio-player"
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "scripts": {
+        "build": "rm -rf dist && rollup -c && tsc --project tsconfig.lib.json",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:run": "vitest run",
+        "test:coverage": "vitest run --coverage"
+    },
+    "devDependencies": {
+        "@vitest/ui": "^4.0.7",
+        "happy-dom": "^20.0.10",
+        "jsdom": "^27.1.0",
+        "vitest": "^4.0.7"
+    }
 }

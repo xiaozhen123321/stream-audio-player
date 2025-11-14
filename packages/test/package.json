@@ -1,8 +1,8 @@
 {
-  "name": "stream-audio-player-test",
-  "version": "0.0.1",
-  "private": true,
-  "nx": {
-    "name": "stream-audio-player-test"
-  }
+    "name": "stream-audio-player-test",
+    "version": "0.0.1",
+    "private": true,
+    "nx": {
+        "name": "stream-audio-player-test"
+    }
 }
