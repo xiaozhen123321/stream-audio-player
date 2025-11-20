@@ -1,4 +1,4 @@
-# Add files here to ignore them from prettier formatting
+# Add files here to ignore them from prettier formatting1
 /dist
 /coverage
 /.nx/cache
