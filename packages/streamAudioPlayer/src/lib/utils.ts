@@ -13,7 +13,7 @@ export const isSupportMediaSource = isMediaSourceSupported();
 function isAudioContextSupported() {
     const isSupportAudioContext = window.AudioContext !== undefined;
 
-    // @ts-ignore
+    // @ts-expect-error webkitAudioContext is not in standard TypeScript definitions
     const isSupportWebkitAudioContext = window.webkitAudioContext !== undefined;
     return isSupportAudioContext || isSupportWebkitAudioContext;
 }

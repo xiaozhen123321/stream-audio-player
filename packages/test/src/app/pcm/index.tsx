@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {useEffect, useMemo, useState} from 'react';
 import {StreamAudioPlayer} from 'stream-audio-player';
 import {Spin} from 'antd';
 import audio1 from './202509281556_c71f6d.pcm';
@@ -71,25 +71,25 @@ export const PCMAudioPlayer: React.FC = () => {
         console.log('音频恢复播放');
         setPauseButDisabled(false);
         setIsPlaying(true);
-    }
+    };
 
     const audioPause = () => {
         console.log('音频暂停');
         setIsPlaying(false);
         setPauseButDisabled(true);
         setResumeButDisabled(false);
-    }
+    };
 
     useEffect(() => {
         audioPlayer.on('audioReadyToPlay', audioReadyToPlay);
 
-        audioPlayer.on('audioPlayStart', audioPlayStart)
+        audioPlayer.on('audioPlayStart', audioPlayStart);
 
-        audioPlayer.on('audioPlayEnd', audioPlayEnd)
+        audioPlayer.on('audioPlayEnd', audioPlayEnd);
 
-        audioPlayer.on('audioResumePlay', audioResumePlay)
+        audioPlayer.on('audioResumePlay', audioResumePlay);
 
-        audioPlayer.on('audioPause', audioPause)
+        audioPlayer.on('audioPause', audioPause);
 
         return () => {
             audioPlayer.off('audioReadyToPlay', audioReadyToPlay);
@@ -97,9 +97,8 @@ export const PCMAudioPlayer: React.FC = () => {
             audioPlayer.off('audioPlayEnd', audioPlayEnd);
             audioPlayer.off('audioResumePlay', audioResumePlay);
             audioPlayer.off('audioPause', audioPause);
-        }
+        };
     }, []);
-
 
     if (!audioBuffer || !audioBuffer1) return <Spin />;
 
@@ -112,40 +111,43 @@ export const PCMAudioPlayer: React.FC = () => {
                 <span>当前声道数：{channels}</span>
                 <span>当前位深：{bitDepth}</span>
             </div>
-            <div>当前使用的播放方案：{audioPlayer.audioPlayMode ? (audioPlayer.audioPlayMode === 'mse' ? 'mediaSource' : 'audioContext') : ''}</div>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: 20}}>
+            <div>
+                当前使用的播放方案：
+                {audioPlayer.audioPlayMode
+                    ? audioPlayer.audioPlayMode === 'mse'
+                        ? 'mediaSource'
+                        : 'audioContext'
+                    : ''}
+            </div>
+            <div style={{display: 'flex', gap: '10px', alignItems: 'center', marginBottom: 20}}>
                 <button
                     disabled={firstAppendButtonDisabled}
-                    onClick={
-                        () => {
-                            if (audioBuffer) {
-                                audioPlayer.appendBuffer(audioBuffer);
-                                setFirstAppendButtonDisabled(true);
-                                setSecondAppendButtonDisabled(false);
-                            }
+                    onClick={() => {
+                        if (audioBuffer) {
+                            audioPlayer.appendBuffer(audioBuffer);
+                            setFirstAppendButtonDisabled(true);
+                            setSecondAppendButtonDisabled(false);
                         }
-                    }
+                    }}
                 >
                     添加第一段buffer音频
                 </button>
                 <button
                     disabled={secondAppendButtonDisabled}
-                    onClick={
-                        () => {
-                            if (audioBuffer) {
-                                audioPlayer.appendBuffer(audioBuffer1);
-                                setSecondAppendButtonDisabled(true);
-                                setPlayButDisabled(false);
-                            }
+                    onClick={() => {
+                        if (audioBuffer) {
+                            audioPlayer.appendBuffer(audioBuffer1);
+                            setSecondAppendButtonDisabled(true);
+                            setPlayButDisabled(false);
                         }
-                    }
+                    }}
                 >
                     添加第二段buffer音频
                 </button>
                 <button
                     disabled={playButDisabled}
                     onClick={() => {
-                        audioPlayer.play()
+                        audioPlayer.play();
                     }}
                 >
                     播放
@@ -160,28 +162,26 @@ export const PCMAudioPlayer: React.FC = () => {
                 >
                     暂停
                 </button>
-                <button
-                    disabled={resumeButDisabled}
-                    onClick={() => audioPlayer.resume()}
-                >
+                <button disabled={resumeButDisabled} onClick={() => audioPlayer.resume()}>
                     恢复播放
                 </button>
-                {
-                    audioPlayer.audioPlayMode === 'mse' && (
-                        <button
-                            disabled={!isPlaying}
-                            onClick={() => {
-                                audioPlayer.audioElement!.currentTime += 3;
-                            }}
-                        >
-                            快进3s
-                        </button>
-                    )
-                }
+                {audioPlayer.audioPlayMode === 'mse' && (
+                    <button
+                        disabled={!isPlaying}
+                        onClick={() => {
+                            audioPlayer.audioElement!.currentTime += 3;
+                        }}
+                    >
+                        快进3s
+                    </button>
+                )}
             </div>
-            {isPlaying ? <div style={{color: 'red'}}>音频正在播放</div> : <div style={{color: 'red'}}>音频未播放</div>}
+            {isPlaying ? (
+                <div style={{color: 'red'}}>音频正在播放</div>
+            ) : (
+                <div style={{color: 'red'}}>音频未播放</div>
+            )}
             {isAudioReady && <div style={{color: 'red'}}>音频已经就绪，可以开始播放</div>}
         </div>
     );
 };
-

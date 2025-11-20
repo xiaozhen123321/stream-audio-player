@@ -129,7 +129,7 @@ export class MseStreamAudioPlayer {
                 this.eventEmitter.dispatchEvent(new CustomEvent('audioResumePlay'));
                 // 音频开始播放，发布消息
             })
-            .catch(err => {
+            .catch(() => {
                 throw new Error('音频播放失败');
             });
     }

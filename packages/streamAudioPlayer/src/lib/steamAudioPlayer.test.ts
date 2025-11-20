@@ -91,7 +91,7 @@ describe('StreamAudioPlayer', () => {
                         numberOfChannels: channels,
                         length: length,
                         sampleRate: sampleRate,
-                        getChannelData: vi.fn((_channel: number) => new Float32Array(length)),
+                        getChannelData: vi.fn(() => new Float32Array(length)),
                         duration: length / sampleRate
                     };
                     return buffer as unknown as AudioBuffer;
@@ -181,7 +181,7 @@ describe('StreamAudioPlayer', () => {
                         numberOfChannels: channels,
                         length: length,
                         sampleRate: sampleRate,
-                        getChannelData: vi.fn((_channel: number) => new Float32Array(length)),
+                        getChannelData: vi.fn(() => new Float32Array(length)),
                         duration: length / sampleRate
                     };
                     return buffer as unknown as AudioBuffer;
@@ -321,7 +321,7 @@ describe('StreamAudioPlayer', () => {
                         numberOfChannels: channels,
                         length: length,
                         sampleRate: sampleRate,
-                        getChannelData: vi.fn((_channel: number) => new Float32Array(length)),
+                        getChannelData: vi.fn(() => new Float32Array(length)),
                         duration: length / sampleRate
                     };
                     return buffer as unknown as AudioBuffer;
